@@ -37,6 +37,24 @@ If you have a feature request, please create a new issue. And also, pull request
 $ aws configure
 ```
 
+## Set Environment Variable
+
+Add `.env` file and set as follows:
+
+```bash
+FIREBASE_SERVER_CLIENT_EMAIL=xxx
+FIREBASE_SERVER_DATABASE_URL=xxx
+FIREBASE_SERVER_PRIVATE_KEY=xxx
+FIREBASE_SERVER_PROJECT_ID=xxx
+
+FIREBASE_CLIENT_API_KEY=xxx
+FIREBASE_CLIENT_AUTH_DOMAIN=xxx
+FIREBASE_CLIENT_DATABASE_URL=xxx
+FIREBASE_CLIENT_MESSAGING_SENDER_ID=xxx
+FIREBASE_CLIENT_PROJECT_ID=xxx
+FIREBASE_CLIENT_STORAGE_BUCKET=xxx
+```
+
 ## Configuration
 
 Edit `serverless.yml`
