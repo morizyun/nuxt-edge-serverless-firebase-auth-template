@@ -2,48 +2,36 @@
     <div>
         <h2 class="title">Sign In</h2>
 
-        <div class="field">
-            <div class="control">
+        <div v-if="errorMessage" class="notification is-danger">errorMessage: {{ errorMessage }}</div>
+        <form @submit.prevent="emailLogin">
+            <div class="field">
                 <label class="label">Email: </label>
-                <input class="input" type="text" :value="email" @input="this.updateEmail" />
+                <input type="text" class="input" v-model="email">
             </div>
-        </div>
-        <div class="field">
-            <div class="control">
+            <div class="field">
                 <label class="label">Password: </label>
-                <input class="input" type="password" :value="password" @input="this.updatePassword" />
+                <input type="password" class="input" v-model="password">
             </div>
-        </div>
-
-        <div class="field">
-            <div class="control">
-                <button class="button" @click="emailLogin">Sign In</button>
-            </div>
-        </div>
-
+            <input type="submit" class="button" value="button">
+        </form>
     </div>
 </template>
 
 <script lang="ts">
-import { Component, Provide, Vue } from "nuxt-property-decorator";
+import { Component, Vue } from "nuxt-property-decorator";
 
 @Component()
 export default class LoginForm extends Vue {
-  @Provide()
   email = "";
-
-  @Provide()
   password = "";
-
-  updateEmail(e) {
-    this.email = e.target.value;
-  }
-
-  updatePassword(e) {
-    this.password = e.target.value;
-  }
+  errorMessage = "";
 
   emailLogin() {
+    if (!this.email || !this.password) {
+      this.errorMessage = "Invalid email or password!";
+      return;
+    }
+
     this.$store
       .dispatch("user/signInWithEmail", {
         email: this.email,
@@ -55,7 +43,7 @@ export default class LoginForm extends Vue {
         }
       })
       .catch(e => {
-        console.log(e.message);
+        this.errorMessage = e.message;
       });
   }
 }
