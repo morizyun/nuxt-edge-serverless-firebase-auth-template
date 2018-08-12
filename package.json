@@ -1,0 +1,59 @@
+{
+  "name": "nuxt-edge-serverless-bulma-template",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx nuxt",
+    "build": "npx nuxt build",
+    "npm:update": "ncu -a -u && rm -rf node_modules yarn.lock && yarn",
+    "prettier": "prettier --write \"{,!(node_modules|dist|.nuxt|.serveless)/**/}*.{js,jsx,ts,tsx,vue,json}\"",
+    "pre-commit": "yarn tslint:fix && yarn prettier && git add . -A && yarn build && yarn test",
+    "sls:create": "npx nuxt build && npx sls create_domain && npx sls deploy",
+    "sls:local": "npx sls offline",
+    "sls:deploy": "npx nuxt build && npx sls deploy",
+    "sls:remove": "npx sls delete_domain && npx sls remove",
+    "start": "npx nuxt start",
+    "test": "echo 'test'",
+    "tslint": "tslint --project tsconfig.json",
+    "tslint:fix": "tslint --project tsconfig.json --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn pre-commit"
+    }
+  },
+  "dependencies": {
+    "@nuxtjs/apollo": "^4.0.0-rc1",
+    "@nuxtjs/axios": "^5.3.1",
+    "@nuxtjs/bulma": "^1.2.0",
+    "apollo-link-http": "^1.5.4",
+    "apollo-link-ws": "^1.0.8",
+    "apollo-utilities": "^1.0.18",
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.16.3",
+    "graphql": "^0.13.2",
+    "graphql-tag": "^2.9.2",
+    "nuxt-edge": "^2.0.0-25567007.ec52104",
+    "require-yml": "^1.3.1",
+    "serverless-http": "^1.6.0",
+    "subscriptions-transport-ws": "^0.9.14"
+  },
+  "devDependencies": {
+    "husky": "^1.0.0-rc.13",
+    "node-sass": "^4.9.3",
+    "npm-check-updates": "^2.14.2",
+    "nuxt-property-decorator": "1.2.0",
+    "prettier": "^1.14.2",
+    "sass-loader": "^7.1.0",
+    "serverless": "^1.30.0",
+    "serverless-domain-manager": "^2.6.0",
+    "serverless-offline": "^3.25.7",
+    "serverless-s3-sync": "^1.6.1",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.14.0",
+    "typescript": "^3.0.1",
+    "vuex-class": "^0.3.1"
+  }
+}

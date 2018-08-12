@@ -1,0 +1,76 @@
+service: "nuxt-edge-serverless-template" # Edit service name
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  stage: develop
+  region: ap-northeast-2 # Edit region name
+  environment:
+    NODE_ENV: production
+
+package:
+  exclude:
+    - src/**
+
+  include:
+    - serverless.yml
+
+functions:
+  nuxtRenderer:
+    handler: handler.render
+    memorySize: 512
+    timeout: 30
+    events:
+      - http:
+          path: /
+          method: ANY
+          cors: true
+      - http:
+          path: /{proxy+}
+          method: ANY
+          cors: true
+
+resources:
+  Resources:
+    AssetsBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "my-s3-bucket" # Specify a new bucket name for client assets
+    AssetsBucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: AssetsBucket
+        PolicyDocument:
+          Version: "2012-10-17"
+          Statement:
+            -
+              Action:
+                - s3:GetObject
+              Effect: Allow
+              Resource:
+                Fn::Join: 
+                  - ""
+                  - 
+                    - "arn:aws:s3:::"
+                    - 
+                      Ref: AssetsBucket
+                    - "/*"
+              Principal: "*"
+
+plugins:
+  - serverless-offline
+  - serverless-s3-sync
+  - serverless-domain-manager
+
+custom:
+  serverless-offline:
+    port: 4000
+  s3Sync:
+    - bucketName: "my-s3-bucket" # Retype the bucket name specified above
+      localDir: .nuxt/dist
+  customDomain:
+    domainName: "nuxt.mydomain.com" # Specify a new domain name to be created
+    stage: develop
+    certificateName: "*.mydomain.com" # Enter the Certificate name with that domain
+    createRoute53Record: true
