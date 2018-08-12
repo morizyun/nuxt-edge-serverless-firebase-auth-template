@@ -1,4 +1,4 @@
-# 🚀 Nuxt.js 2.0 SSR on AWS Serverless Stack (Lambda + API Gateway + S3)
+# 🚀 Nuxt.js 2.0 SSR with Firebase Authentication on AWS Serverless (Lambda + API Gateway + S3)
 
 Nuxt.js 2.0 Serverless Server-side Rendering Starter on AWS Serverless Stack (Lambda + API Gateway + S3) with _Serverless Framework_
 
@@ -7,12 +7,14 @@ Nuxt.js 2.0 Serverless Server-side Rendering Starter on AWS Serverless Stack (La
 - Nuxt.js 2.0 (`nuxt-edge`)
 - Serverless Framework
 - TypeScript
+- Firebase Authentication
 - Sass (SCSS)
 - ESLint
 - TSLint
 - @nuxtjs/axios
 - @nuxtjs/apollo
 - @nuxtjs/bulma
+- @nuxtjs/dotenv
 
 If you have a feature request, please create a new issue. And also, pull requests are always welcome🙏
 

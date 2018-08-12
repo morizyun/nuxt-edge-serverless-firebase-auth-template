@@ -11,7 +11,8 @@
         <div class="navbar-menu" id="navMenu" :class="{'is-active': isMenuActive}">
             <div class="navbar-end">
                 <nuxt-link to="/" class="navbar-item">Top</nuxt-link>
-                <nuxt-link to="/about" class="navbar-item">About</nuxt-link>
+                <a v-if="user" class="navbar-item" @click="this.signOut">Logout</a>
+                <nuxt-link v-if="!user" to="/login" class="navbar-item">Login</nuxt-link>
             </div>
         </div>
     </nav>
@@ -26,8 +27,15 @@ export default class Index extends Vue {
   @State(state => state.navbar.isMenuActive)
   private isMenuActive: boolean;
 
+  @State(state => state.user.user)
+  private user: object;
+
   toggleMenu() {
     this.$store.dispatch("navbar/toggleMenu");
+  }
+
+  signOut() {
+    this.$store.dispatch("user/signOut");
   }
 }
 </script>

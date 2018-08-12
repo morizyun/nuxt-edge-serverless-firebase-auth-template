@@ -3,16 +3,16 @@
         <section class="hero is-primary is-bold">
             <div class="hero-body">
                 <h1 class="title is-size-2">
-                    Top Page
+                    Login Page
                 </h1>
             </div>
         </section>
+        <loginForm />
     </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from "nuxt-property-decorator";
-import { State } from "vuex-class";
 import LoginForm from "~/components/LoginForm";
 
 @Component({
@@ -20,11 +20,5 @@ import LoginForm from "~/components/LoginForm";
     LoginForm
   }
 })
-export default class Index extends Vue {
-  @State(state => state.user.user)
-  private user: object;
-
-  @State(state => state.user.loadingUser)
-  private loadingUser: boolean;
-}
+export default class Login extends Vue {}
 </script>

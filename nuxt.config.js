@@ -1,5 +1,6 @@
 const cookieParser = require("cookie-parser");
 const yaml = require("require-yml");
+require("dotenv").config();
 
 const serverlessConfig = yaml("./serverless.yml");
 const awsRegion = serverlessConfig.provider.region;
@@ -7,7 +8,7 @@ const awsS3AssetsBucketName =
   serverlessConfig.resources.Resources.AssetsBucket.Properties.BucketName;
 
 module.exports = {
-  apollo: { clientConfigs: { default: "~/apollo/clientConfigs/default.js" } },
+  apollo: { clientConfigs: { default: "~/apollo/clientConfigs/default.ts" } },
   build: {
     extractCSS: true,
     publicPath: `https://s3.${awsRegion}.amazonaws.com/${awsS3AssetsBucketName}/`,
@@ -33,6 +34,15 @@ module.exports = {
       }
     }
   },
+  env: {
+    FIREBASE_CLIENT_API_KEY: process.env.FIREBASE_CLIENT_API_KEY,
+    FIREBASE_CLIENT_AUTH_DOMAIN: process.env.FIREBASE_CLIENT_AUTH_DOMAIN,
+    FIREBASE_CLIENT_DATABASE_URL: process.env.FIREBASE_CLIENT_DATABASE_URL,
+    FIREBASE_CLIENT_MESSAGING_SENDER_ID:
+      process.env.FIREBASE_CLIENT_MESSAGING_SENDER_ID,
+    FIREBASE_CLIENT_PROJECT_ID: process.env.FIREBASE_CLIENT_PROJECT_ID,
+    FIREBASE_CLIENT_STORAGE_BUCKET: process.env.FIREBASE_CLIENT_STORAGE_BUCKET
+  },
   extensions: ["js", "ts"],
   head: {
     meta: [
@@ -47,13 +57,23 @@ module.exports = {
     title: "Nuxt Edge Serverless Template"
   },
   loading: { color: "#51cf66" },
-  modules: ["@nuxtjs/apollo", "@nuxtjs/axios", "@nuxtjs/bulma"],
-
+  modules: ["@nuxtjs/apollo", "@nuxtjs/bulma", "@nuxtjs/dotenv"],
+  plugins: [
+    { src: "~/plugins/firebase-client-init.ts", ssr: false },
+    { src: "~/plugins/auth-cookie.ts", ssr: false }
+  ],
   render: {
     etag: false,
     // Disabled gzip compression
     gzip: { threshold: 1073741824 }
   },
-  serverMiddleware: [cookieParser()],
-  srcDir: "src/"
+  router: {
+    middleware: "router-auth"
+  },
+  serverMiddleware: [
+    cookieParser(),
+    "~/serverMiddleware/validateFirebaseIdToken"
+  ],
+  srcDir: "src/",
+  vendor: ["firebase"]
 };
