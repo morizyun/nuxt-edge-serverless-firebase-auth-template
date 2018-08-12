@@ -2,6 +2,10 @@
 
 Nuxt.js 2.0 Serverless Server-side Rendering Starter on AWS Serverless Stack (Lambda + API Gateway + S3) with _Serverless Framework_
 
+### Blog post
+
+https://blog.morizyun.com/javascript/typescript-tutorial-nuxt-firebase-bulma-navbar-vue.html
+
 ### Pre-Installed
 
 - Nuxt.js 2.0 (`nuxt-edge`)
